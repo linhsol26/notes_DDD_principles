@@ -24,9 +24,9 @@ dependencies:
   amplify_analytics_pinpoint: ^0.2.4
   amplify_auth_cognito: ^0.2.4
   amplify_flutter: ^0.2.4
+  auto_route: ^2.4.0
   cupertino_icons: ^1.0.2
   dartz: ^0.10.0
-  flushbar: ^1.10.4
   flutter:
     sdk: flutter
   flutter_bloc: ^7.3.0
@@ -34,8 +34,10 @@ dependencies:
   get_it: ^7.2.0
   injectable: ^1.5.0
   lint: ^1.7.2
+  uuid: ^3.0.4
 
 dev_dependencies:
+  auto_route_generator: ^2.4.0
   build_runner: ^2.1.2
   flutter_test:
     sdk: flutter

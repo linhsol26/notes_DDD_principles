@@ -9,7 +9,14 @@ import 'package:notes/presentation/core/app_widget.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   configureInjection(Environment.prod);
+  await _configureAmplify();
   runApp(
-      // check if config right
-      AppWidget());
+    // check if config right
+    const AppWidget(),
+  );
+}
+
+Future<void> _configureAmplify() async {
+  await Amplify.addPlugins([AmplifyAuthCognito()]);
+  await Amplify.configure(amplifyconfig);
 }

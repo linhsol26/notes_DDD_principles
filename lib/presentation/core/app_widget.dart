@@ -1,7 +1,12 @@
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:amplify_flutter/amplify.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:notes/amplifyconfiguration.dart';
+import 'package:notes/application/auth/authentication_bloc.dart';
+import 'package:notes/injection.dart';
+import 'package:notes/presentation/routes/router.gr.dart';
 import 'package:notes/presentation/sign_in/sign_in_page.dart';
 
 class AppWidget extends StatefulWidget {
@@ -12,28 +17,30 @@ class AppWidget extends StatefulWidget {
 }
 
 class _AppWidgetState extends State<AppWidget> {
-  bool _amplifyConfigured = false;
+  final _appRouter = AppRouter();
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    _configureAmplify();
-  }
-
-  Future<void> _configureAmplify() async {
-    await Amplify.addPlugins([AmplifyAuthCognito()]);
-    await Amplify.configure(amplifyconfig);
-    setState(() {
-      _amplifyConfigured = true;
-    });
   }
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Notes',
-      home: _amplifyConfigured ? const SignInPage() : Container(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<AuthenticationBloc>(
+          create: (context) =>
+              getIt<AuthenticationBloc>()..add(const AuthCheckRequested()),
+        )
+      ],
+      child: MaterialApp(
+        home: MaterialApp.router(
+          routerDelegate: _appRouter.delegate(),
+          routeInformationParser: _appRouter.defaultRouteParser(),
+        ),
+        title: 'Notes',
+      ),
     );
   }
 }

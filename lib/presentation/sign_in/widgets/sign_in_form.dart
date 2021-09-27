@@ -1,4 +1,3 @@
-import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:notes/application/auth/sign_in_form/sign_in_form_bloc.dart';
@@ -15,14 +14,12 @@ class SignInForm extends StatelessWidget {
           () {},
           (either) => either.fold(
             (failure) {
-              Scaffold.of(context).showBottomSheet(
-                (context) => SnackBar(
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
                   duration: const Duration(seconds: 3),
                   content: failure.map(
                     cancelledByUser: (_) => const Text('Cancelled'),
                     serverError: (_) => const Text('Server error'),
-                    emailAlreadyInUse: (_) =>
-                        const Text('Email already in use'),
                     invalidEmailAndPasswordCombination: (_) =>
                         const Text('Invalid email and password combination'),
                   ),
